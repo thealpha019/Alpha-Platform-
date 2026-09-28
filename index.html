@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Alpha Platform</title>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * {
@@ -38,8 +42,7 @@ button {
   font-weight: bold;
 }
 
-.login-btn,
-.register-btn {
+.login-btn {
   background: #00ff88;
   color: #07110c;
   padding: 11px 18px;
@@ -185,13 +188,23 @@ footer {
 
 <header>
   <div class="logo">ALPHA PLATFORM</div>
-  <button class="login-btn" onclick="showLogin()">Login</button>
+
+  <button class="login-btn" onclick="showLogin()">
+    Login
+  </button>
 </header>
+
+
+<!-- HOME -->
 
 <section id="home">
 
   <div class="hero">
-    <h1>Welcome to <span>Alpha Platform</span></h1>
+
+    <h1>
+      Welcome to <span>Alpha Platform</span>
+    </h1>
+
     <p>
       Smart tools, AI-powered services and a modern platform
       built for the next generation.
@@ -200,33 +213,61 @@ footer {
     <button class="get-started" onclick="showRegister()">
       Get Started
     </button>
+
   </div>
+
 
   <div class="features">
 
     <div class="feature">
+
       <h2>🤖 AI Tools</h2>
-      <p>Access powerful AI features from one simple platform.</p>
+
+      <p>
+        Access powerful AI features from one simple platform.
+      </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>👤 User Account</h2>
-      <p>Create an account and manage your Alpha Platform profile.</p>
+
+      <p>
+        Create an account and manage your Alpha Platform profile.
+      </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>💳 Payments</h2>
-      <p>Tanzania payment systems will be connected in the next stage.</p>
+
+      <p>
+        Tanzania payment systems will be connected in the next stage.
+      </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>⚙️ Admin Panel</h2>
-      <p>Administrators will manage users and platform services.</p>
+
+      <p>
+        Administrators will manage users and platform services.
+      </p>
+
     </div>
 
   </div>
 
 </section>
+
+
+<!-- LOGIN -->
 
 <section class="auth" id="login">
 
@@ -234,20 +275,38 @@ footer {
 
     <h2>Login</h2>
 
-    <input type="email" id="loginEmail" placeholder="Email address">
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Email address"
+    >
 
-    <input type="password" id="loginPassword" placeholder="Password">
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Password"
+    >
 
-    <button onclick="login()">Login</button>
+    <button onclick="login()">
+      Login
+    </button>
 
     <div class="switch">
+
       Don't have an account?
-      <span onclick="showRegister()">Register</span>
+
+      <span onclick="showRegister()">
+        Register
+      </span>
+
     </div>
 
   </div>
 
 </section>
+
+
+<!-- REGISTER -->
 
 <section class="auth" id="register">
 
@@ -255,116 +314,386 @@ footer {
 
     <h2>Create Account</h2>
 
-    <input type="text" id="registerName" placeholder="Full name">
+    <input
+      type="text"
+      id="registerName"
+      placeholder="Full name"
+    >
 
-    <input type="email" id="registerEmail" placeholder="Email address">
+    <input
+      type="email"
+      id="registerEmail"
+      placeholder="Email address"
+    >
 
-    <input type="password" id="registerPassword" placeholder="Create password">
+    <input
+      type="password"
+      id="registerPassword"
+      placeholder="Create password"
+    >
 
-    <button onclick="register()">Register</button>
+    <button onclick="register()">
+      Register
+    </button>
 
     <div class="switch">
+
       Already have an account?
-      <span onclick="showLogin()">Login</span>
+
+      <span onclick="showLogin()">
+        Login
+      </span>
+
     </div>
 
   </div>
 
 </section>
 
+
+<!-- DASHBOARD -->
+
 <section id="dashboard">
 
-  <h1>Welcome to Alpha Platform 🎉</h1>
+  <h1>
+    Welcome to Alpha Platform 🎉
+  </h1>
 
   <p id="welcomeUser"></p>
 
-  <button class="logout" onclick="logout()">Logout</button>
+  <button class="logout" onclick="logout()">
+    Logout
+  </button>
 
 </section>
+
 
 <footer>
   © 2026 Alpha Platform. All rights reserved.
 </footer>
 
+
 <script>
 
+/* ==========================================
+   SUPABASE CONNECTION
+========================================== */
+
+const SUPABASE_URL =
+  "https://gbbcqgfosuxddrzqozvz.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable__AZdeucoYG0UE-8SYw2GmA_OC_QKiNI";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
 function hideAll() {
+
   document.getElementById("home").style.display = "none";
+
   document.getElementById("login").style.display = "none";
+
   document.getElementById("register").style.display = "none";
+
   document.getElementById("dashboard").style.display = "none";
 }
 
+
 function showLogin() {
+
   hideAll();
+
   document.getElementById("login").style.display = "block";
 }
 
+
 function showRegister() {
+
   hideAll();
+
   document.getElementById("register").style.display = "block";
 }
 
-function register() {
 
-  const name = document.getElementById("registerName").value;
-  const email = document.getElementById("registerEmail").value;
-  const password = document.getElementById("registerPassword").value;
+/* ==========================================
+   REGISTER
+========================================== */
+
+async function register() {
+
+  const name =
+    document.getElementById("registerName")
+      .value
+      .trim();
+
+  const email =
+    document.getElementById("registerEmail")
+      .value
+      .trim();
+
+  const password =
+    document.getElementById("registerPassword")
+      .value;
+
 
   if (!name || !email || !password) {
+
     alert("Please fill all fields.");
+
     return;
   }
 
-  localStorage.setItem("alphaUser", JSON.stringify({
-    name: name,
-    email: email,
-    password: password
-  }));
 
-  alert("Account created successfully!");
+  if (password.length < 6) {
 
-  showLogin();
-}
+    alert("Password must be at least 6 characters.");
 
-function login() {
-
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-
-  const user = JSON.parse(localStorage.getItem("alphaUser"));
-
-  if (!user) {
-    alert("No account found. Please register first.");
     return;
   }
 
-  if (email === user.email && password === user.password) {
 
-    localStorage.setItem("alphaLoggedIn", "true");
+  /* Create Supabase Auth account */
 
-    document.getElementById("welcomeUser").innerText =
-      "Hello " + user.name + "! You are now logged in.";
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.signUp({
 
-    hideAll();
+      email: email,
 
-    document.getElementById("dashboard").style.display = "block";
+      password: password,
+
+      options: {
+
+        data: {
+          full_name: name
+        }
+
+      }
+
+    });
+
+
+  if (error) {
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  if (!data.user) {
+
+    alert("Registration failed.");
+
+    return;
+  }
+
+
+  /*
+    Save profile in users table
+  */
+
+  const {
+    error: profileError
+  } =
+    await supabaseClient
+      .from("users")
+      .insert({
+
+        id: data.user.id,
+
+        full_name: name,
+
+        email: email
+
+      });
+
+
+  if (profileError) {
+
+    console.error(profileError);
+
+    alert(
+      "Account created, but profile could not be saved: "
+      + profileError.message
+    );
+
+    return;
+  }
+
+
+  /*
+    If email confirmation is disabled
+  */
+
+  if (data.session) {
+
+    showDashboard(data.user);
 
   } else {
 
-    alert("Incorrect email or password.");
+    alert(
+      "Account created successfully! Please check your email to confirm your account."
+    );
 
+    showLogin();
   }
+
 }
 
-function logout() {
 
-  localStorage.removeItem("alphaLoggedIn");
+/* ==========================================
+   LOGIN
+========================================== */
+
+async function login() {
+
+  const email =
+    document.getElementById("loginEmail")
+      .value
+      .trim();
+
+  const password =
+    document.getElementById("loginPassword")
+      .value;
+
+
+  if (!email || !password) {
+
+    alert(
+      "Please enter your email and password."
+    );
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth
+      .signInWithPassword({
+
+        email: email,
+
+        password: password
+
+      });
+
+
+  if (error) {
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  showDashboard(data.user);
+
+}
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+async function showDashboard(user) {
 
   hideAll();
 
-  document.getElementById("home").style.display = "block";
+  document.getElementById("dashboard")
+    .style.display = "block";
+
+
+  let name =
+    user.user_metadata?.full_name;
+
+
+  /*
+    Get profile from users table
+  */
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("users")
+      .select("full_name")
+      .eq("id", user.id)
+      .single();
+
+
+  if (!error && data) {
+
+    name = data.full_name;
+
+  }
+
+
+  document.getElementById("welcomeUser")
+    .innerText =
+      "Hello "
+      + (name || "User")
+      + "! You are now logged in.";
+
 }
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  hideAll();
+
+  document.getElementById("home")
+    .style.display = "block";
+}
+
+
+/* ==========================================
+   CHECK SESSION
+========================================== */
+
+async function checkSession() {
+
+  const {
+    data
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if (data.session) {
+
+    showDashboard(
+      data.session.user
+    );
+
+  }
+
+}
+
+
+/* Run session check */
+
+checkSession();
 
 </script>
 
