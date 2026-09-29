@@ -181,12 +181,12 @@ input:focus {
   display: none;
   max-width: 1000px;
   margin: auto;
-  padding: 50px 20px;
+  padding: 45px 20px;
 }
 
 #adminPanel h1 {
   color: #00ff88;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .admin-card {
@@ -195,6 +195,40 @@ input:focus {
   padding: 20px;
   border-radius: 14px;
   margin-top: 20px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-box {
+  background: #080d18;
+  border: 1px solid #263247;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 30px;
+  font-weight: bold;
+  color: #00ff88;
+  margin-bottom: 8px;
+}
+
+.stat-title {
+  color: #aab3c5;
+}
+
+.search-box {
+  margin-top: 25px;
+}
+
+.search-box input {
+  margin-bottom: 0;
 }
 
 .admin-user {
@@ -236,6 +270,10 @@ footer {
 
   .hero h1 {
     font-size: 32px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
   }
 
   #adminPanel {
@@ -288,50 +326,34 @@ footer {
 
   </div>
 
-
   <div class="features">
 
     <div class="feature">
-
       <h2>🤖 AI Tools</h2>
-
       <p>
         Access powerful AI features from one simple platform.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>👤 User Account</h2>
-
       <p>
         Create an account and manage your Alpha Platform profile.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>💳 Payments</h2>
-
       <p>
         Tanzania payment systems will be connected in the next stage.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>⚙️ Admin Panel</h2>
-
       <p>
         Administrators can manage users and platform services.
       </p>
-
     </div>
 
   </div>
@@ -469,22 +491,91 @@ footer {
   </h1>
 
   <p>
-    Manage and view Alpha Platform users.
+    Manage and monitor Alpha Platform users.
   </p>
 
+
+  <!-- STATISTICS -->
+
+  <div class="stats">
+
+    <div class="stat-box">
+
+      <div
+        class="stat-number"
+        id="totalUsers"
+      >
+        0
+      </div>
+
+      <div class="stat-title">
+        👥 Total Users
+      </div>
+
+    </div>
+
+
+    <div class="stat-box">
+
+      <div
+        class="stat-number"
+        id="totalAdmins"
+      >
+        0
+      </div>
+
+      <div class="stat-title">
+        👑 Admins
+      </div>
+
+    </div>
+
+
+    <div class="stat-box">
+
+      <div
+        class="stat-number"
+        id="totalNormalUsers"
+      >
+        0
+      </div>
+
+      <div class="stat-title">
+        👤 Normal Users
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- USER MANAGEMENT -->
 
   <div class="admin-card">
 
     <h2>
-      👥 Users
+      👥 User Management
     </h2>
 
-    <p
-      id="userCount"
-      style="margin-top:10px;"
-    ></p>
 
-    <div id="userList">
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        id="userSearch"
+        placeholder="🔎 Search by name or email..."
+        oninput="filterUsers()"
+      >
+
+    </div>
+
+
+    <div
+      id="userList"
+      style="margin-top:20px;"
+    >
       Loading users...
     </div>
 
@@ -524,6 +615,8 @@ const supabaseClient =
 
 
 let currentUser = null;
+
+let allUsers = [];
 
 
 function hideAll() {
@@ -853,6 +946,10 @@ async function showAdminPanel() {
     .style.display = "block";
 
 
+  document.getElementById("userSearch")
+    .value = "";
+
+
   document.getElementById("userList")
     .innerHTML =
       "Loading users...";
@@ -888,11 +985,57 @@ async function showAdminPanel() {
   }
 
 
-  document.getElementById("userCount")
-    .innerText =
-      "Total users: "
-      + users.length;
+  allUsers = users || [];
 
+
+  updateStatistics();
+
+  displayUsers(allUsers);
+
+}
+
+
+/* STATISTICS */
+
+function updateStatistics() {
+
+  const total =
+    allUsers.length;
+
+
+  const admins =
+    allUsers.filter(
+      function(user) {
+        return user.role === "admin";
+      }
+    ).length;
+
+
+  const normalUsers =
+    allUsers.filter(
+      function(user) {
+        return user.role === "user";
+      }
+    ).length;
+
+
+  document.getElementById("totalUsers")
+    .innerText = total;
+
+
+  document.getElementById("totalAdmins")
+    .innerText = admins;
+
+
+  document.getElementById("totalNormalUsers")
+    .innerText = normalUsers;
+
+}
+
+
+/* DISPLAY USERS */
+
+function displayUsers(users) {
 
   const userList =
     document.getElementById(
@@ -901,6 +1044,16 @@ async function showAdminPanel() {
 
 
   userList.innerHTML = "";
+
+
+  if (users.length === 0) {
+
+    userList.innerHTML =
+      "<p style='color:#aab3c5;'>No users found.</p>";
+
+    return;
+
+  }
 
 
   users.forEach(function(user) {
@@ -967,7 +1120,7 @@ async function showAdminPanel() {
     card.appendChild(date);
 
 
-    /* CHANGE ROLE BUTTON */
+    /* CHANGE ROLE */
 
     const roleButton =
       document.createElement("button");
@@ -986,14 +1139,6 @@ async function showAdminPanel() {
     roleButton.onclick =
       async function() {
 
-        const newRole =
-          user.role === "admin"
-            ? "user"
-            : "admin";
-
-
-        /* Prevent changing your own role */
-
         if (
           user.id === currentUser.id
         ) {
@@ -1005,6 +1150,12 @@ async function showAdminPanel() {
           return;
 
         }
+
+
+        const newRole =
+          user.role === "admin"
+            ? "user"
+            : "admin";
 
 
         const confirmed =
@@ -1073,6 +1224,54 @@ async function showAdminPanel() {
     );
 
   });
+
+}
+
+
+/* SEARCH */
+
+function filterUsers() {
+
+  const search =
+    document.getElementById(
+      "userSearch"
+    )
+    .value
+    .toLowerCase()
+    .trim();
+
+
+  const filteredUsers =
+    allUsers.filter(
+      function(user) {
+
+        const name =
+          (
+            user.full_name
+            || ""
+          ).toLowerCase();
+
+
+        const email =
+          (
+            user.email
+            || ""
+          ).toLowerCase();
+
+
+        return (
+          name.includes(search)
+          ||
+          email.includes(search)
+        );
+
+      }
+    );
+
+
+  displayUsers(
+    filteredUsers
+  );
 
 }
 
