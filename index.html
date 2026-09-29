@@ -6,7 +6,6 @@
 
 <title>Alpha Platform</title>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -162,9 +161,57 @@ input:focus {
   padding: 70px 20px;
 }
 
+.admin-btn {
+  margin-top: 25px;
+  background: #00ff88;
+  color: #07110c;
+  padding: 12px 25px;
+  border-radius: 8px;
+}
+
 .logout {
   margin-top: 25px;
   background: #ff4d4d;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+}
+
+#adminPanel {
+  display: none;
+  max-width: 1000px;
+  margin: auto;
+  padding: 50px 20px;
+}
+
+#adminPanel h1 {
+  color: #00ff88;
+  margin-bottom: 15px;
+}
+
+.admin-card {
+  background: #111827;
+  border: 1px solid #263247;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.admin-user {
+  background: #080d18;
+  border: 1px solid #263247;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.admin-user strong {
+  color: #00ff88;
+}
+
+.back-btn {
+  margin-top: 25px;
+  background: #334155;
   color: white;
   padding: 12px 25px;
   border-radius: 8px;
@@ -179,6 +226,10 @@ footer {
 @media(max-width:600px) {
   .hero h1 {
     font-size: 32px;
+  }
+
+  #adminPanel {
+    padding: 35px 15px;
   }
 }
 </style>
@@ -196,7 +247,6 @@ footer {
 
 
 <!-- HOME -->
-
 <section id="home">
 
   <div class="hero">
@@ -220,46 +270,31 @@ footer {
   <div class="features">
 
     <div class="feature">
-
       <h2>🤖 AI Tools</h2>
-
       <p>
         Access powerful AI features from one simple platform.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>👤 User Account</h2>
-
       <p>
         Create an account and manage your Alpha Platform profile.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>💳 Payments</h2>
-
       <p>
         Tanzania payment systems will be connected in the next stage.
       </p>
-
     </div>
 
-
     <div class="feature">
-
       <h2>⚙️ Admin Panel</h2>
-
       <p>
-        Administrators will manage users and platform services.
+        Administrators can manage users and platform services.
       </p>
-
     </div>
 
   </div>
@@ -268,7 +303,6 @@ footer {
 
 
 <!-- LOGIN -->
-
 <section class="auth" id="login">
 
   <div class="auth-box">
@@ -292,13 +326,10 @@ footer {
     </button>
 
     <div class="switch">
-
       Don't have an account?
-
       <span onclick="showRegister()">
         Register
       </span>
-
     </div>
 
   </div>
@@ -307,7 +338,6 @@ footer {
 
 
 <!-- REGISTER -->
-
 <section class="auth" id="register">
 
   <div class="auth-box">
@@ -337,13 +367,10 @@ footer {
     </button>
 
     <div class="switch">
-
       Already have an account?
-
       <span onclick="showLogin()">
         Login
       </span>
-
     </div>
 
   </div>
@@ -352,7 +379,6 @@ footer {
 
 
 <!-- DASHBOARD -->
-
 <section id="dashboard">
 
   <h1>
@@ -361,8 +387,50 @@ footer {
 
   <p id="welcomeUser"></p>
 
+  <button
+    id="adminButton"
+    class="admin-btn"
+    onclick="showAdminPanel()"
+    style="display:none;"
+  >
+    ⚙️ Admin Panel
+  </button>
+
+  <br>
+
   <button class="logout" onclick="logout()">
     Logout
+  </button>
+
+</section>
+
+
+<!-- ADMIN PANEL -->
+<section id="adminPanel">
+
+  <h1>⚙️ Admin Panel</h1>
+
+  <p>
+    Manage and view Alpha Platform users.
+  </p>
+
+  <div class="admin-card">
+
+    <h2>👥 Users</h2>
+
+    <p id="userCount" style="margin-top:10px;"></p>
+
+    <div id="userList">
+      Loading users...
+    </div>
+
+  </div>
+
+  <button
+    class="back-btn"
+    onclick="showDashboard(currentUser)"
+  >
+    ← Back to Dashboard
   </button>
 
 </section>
@@ -374,10 +442,6 @@ footer {
 
 
 <script>
-
-/* ==========================================
-   SUPABASE CONNECTION
-========================================== */
 
 const SUPABASE_URL =
   "https://gbbcqgfosuxddrzqozvz.supabase.co";
@@ -392,9 +456,8 @@ const supabaseClient =
   );
 
 
-/* ==========================================
-   NAVIGATION
-========================================== */
+let currentUser = null;
+
 
 function hideAll() {
 
@@ -405,6 +468,9 @@ function hideAll() {
   document.getElementById("register").style.display = "none";
 
   document.getElementById("dashboard").style.display = "none";
+
+  document.getElementById("adminPanel").style.display = "none";
+
 }
 
 
@@ -413,6 +479,7 @@ function showLogin() {
   hideAll();
 
   document.getElementById("login").style.display = "block";
+
 }
 
 
@@ -421,12 +488,11 @@ function showRegister() {
   hideAll();
 
   document.getElementById("register").style.display = "block";
+
 }
 
 
-/* ==========================================
-   REGISTER
-========================================== */
+/* REGISTER */
 
 async function register() {
 
@@ -450,6 +516,7 @@ async function register() {
     alert("Please fill all fields.");
 
     return;
+
   }
 
 
@@ -458,15 +525,11 @@ async function register() {
     alert("Password must be at least 6 characters.");
 
     return;
+
   }
 
 
-  /* Create Supabase Auth account */
-
-  const {
-    data,
-    error
-  } =
+  const { data, error } =
     await supabaseClient.auth.signUp({
 
       email: email,
@@ -489,6 +552,7 @@ async function register() {
     alert(error.message);
 
     return;
+
   }
 
 
@@ -497,16 +561,11 @@ async function register() {
     alert("Registration failed.");
 
     return;
+
   }
 
 
-  /*
-    Save profile in users table
-  */
-
-  const {
-    error: profileError
-  } =
+  const { error: profileError } =
     await supabaseClient
       .from("users")
       .insert({
@@ -530,12 +589,9 @@ async function register() {
     );
 
     return;
+
   }
 
-
-  /*
-    If email confirmation is disabled
-  */
 
   if (data.session) {
 
@@ -548,14 +604,13 @@ async function register() {
     );
 
     showLogin();
+
   }
 
 }
 
 
-/* ==========================================
-   LOGIN
-========================================== */
+/* LOGIN */
 
 async function login() {
 
@@ -576,13 +631,11 @@ async function login() {
     );
 
     return;
+
   }
 
 
-  const {
-    data,
-    error
-  } =
+  const { data, error } =
     await supabaseClient.auth
       .signInWithPassword({
 
@@ -598,19 +651,22 @@ async function login() {
     alert(error.message);
 
     return;
+
   }
 
+
+  currentUser = data.user;
 
   showDashboard(data.user);
 
 }
 
 
-/* ==========================================
-   DASHBOARD
-========================================== */
+/* DASHBOARD */
 
 async function showDashboard(user) {
+
+  currentUser = user;
 
   hideAll();
 
@@ -622,17 +678,10 @@ async function showDashboard(user) {
     user.user_metadata?.full_name;
 
 
-  /*
-    Get profile from users table
-  */
-
-  const {
-    data,
-    error
-  } =
+  const { data, error } =
     await supabaseClient
       .from("users")
-      .select("full_name")
+      .select("full_name, role")
       .eq("id", user.id)
       .single();
 
@@ -640,6 +689,24 @@ async function showDashboard(user) {
   if (!error && data) {
 
     name = data.full_name;
+
+
+    if (data.role === "admin") {
+
+      document.getElementById("adminButton")
+        .style.display = "inline-block";
+
+    } else {
+
+      document.getElementById("adminButton")
+        .style.display = "none";
+
+    }
+
+  } else {
+
+    document.getElementById("adminButton")
+      .style.display = "none";
 
   }
 
@@ -653,34 +720,174 @@ async function showDashboard(user) {
 }
 
 
-/* ==========================================
-   LOGOUT
-========================================== */
+/* ADMIN PANEL */
+
+async function showAdminPanel() {
+
+  if (!currentUser) {
+
+    alert("Please login first.");
+
+    return;
+
+  }
+
+
+  const { data: profile, error: profileError } =
+    await supabaseClient
+      .from("users")
+      .select("role")
+      .eq("id", currentUser.id)
+      .single();
+
+
+  if (
+    profileError ||
+    !profile ||
+    profile.role !== "admin"
+  ) {
+
+    alert("Access denied. Admins only.");
+
+    return;
+
+  }
+
+
+  hideAll();
+
+  document.getElementById("adminPanel")
+    .style.display = "block";
+
+
+  document.getElementById("userList")
+    .innerHTML = "Loading users...";
+
+
+  const { data: users, error } =
+    await supabaseClient
+      .from("users")
+      .select(
+        "id, full_name, email, role, created_at"
+      )
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  if (error) {
+
+    document.getElementById("userList")
+      .innerHTML =
+        "<p>Failed to load users: "
+        + error.message
+        + "</p>";
+
+    return;
+
+  }
+
+
+  document.getElementById("userCount")
+    .innerText =
+      "Total users: " + users.length;
+
+
+  const userList =
+    document.getElementById("userList");
+
+
+  userList.innerHTML = "";
+
+
+  users.forEach(function(user) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "admin-user";
+
+
+    const name =
+      document.createElement("p");
+
+    const nameStrong =
+      document.createElement("strong");
+
+    nameStrong.textContent =
+      "👤 " + (user.full_name || "No name");
+
+    name.appendChild(nameStrong);
+
+
+    const email =
+      document.createElement("p");
+
+    email.textContent =
+      "📧 " + user.email;
+
+
+    const role =
+      document.createElement("p");
+
+    role.textContent =
+      "🔐 Role: " + user.role;
+
+
+    const date =
+      document.createElement("p");
+
+    date.textContent =
+      "📅 Created: "
+      + new Date(user.created_at)
+        .toLocaleDateString();
+
+
+    card.appendChild(name);
+
+    card.appendChild(email);
+
+    card.appendChild(role);
+
+    card.appendChild(date);
+
+
+    userList.appendChild(card);
+
+  });
+
+}
+
+
+/* LOGOUT */
 
 async function logout() {
 
   await supabaseClient.auth.signOut();
 
+  currentUser = null;
+
   hideAll();
 
   document.getElementById("home")
     .style.display = "block";
+
 }
 
 
-/* ==========================================
-   CHECK SESSION
-========================================== */
+/* CHECK SESSION */
 
 async function checkSession() {
 
-  const {
-    data
-  } =
+  const { data } =
     await supabaseClient.auth.getSession();
 
 
   if (data.session) {
+
+    currentUser =
+      data.session.user;
 
     showDashboard(
       data.session.user
@@ -691,11 +898,9 @@ async function checkSession() {
 }
 
 
-/* Run session check */
-
 checkSession();
 
 </script>
 
 </body>
-</html>
+  </html>
