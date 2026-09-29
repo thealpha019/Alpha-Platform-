@@ -3,283 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Alpha Platform</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
 }
 
-body {
-  background: #080d18;
-  color: white;
+body{
+  background:#f4f7fb;
+  color:#172033;
 }
 
-header {
-  padding: 18px 22px;
-  background: #111827;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+header{
+  background:#111827;
+  color:white;
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.logo {
-  color: #00ff88;
-  font-size: 22px;
-  font-weight: bold;
+.logo{
+  font-size:22px;
+  font-weight:bold;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+button{
+  border:none;
+  border-radius:10px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.login-btn {
-  background: #00ff88;
-  color: #07110c;
-  padding: 11px 18px;
-  border-radius: 8px;
+.login-btn{
+  background:white;
+  color:#111827;
 }
 
-.hero {
-  text-align: center;
-  padding: 70px 20px 40px;
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:25px 18px;
 }
 
-.hero h1 {
-  font-size: 42px;
-  margin-bottom: 20px;
+.hero{
+  background:linear-gradient(135deg,#111827,#2563eb);
+  color:white;
+  padding:35px 25px;
+  border-radius:18px;
+  margin-bottom:25px;
 }
 
-.hero h1 span {
-  color: #00ff88;
+.hero h1{
+  font-size:30px;
+  margin-bottom:10px;
 }
 
-.hero p {
-  color: #aab3c5;
-  font-size: 17px;
-  line-height: 1.6;
+.hero p{
+  opacity:.9;
+  line-height:1.6;
 }
 
-.get-started {
-  margin-top: 30px;
-  background: #00ff88;
-  padding: 15px 28px;
-  border-radius: 10px;
-  font-size: 16px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:16px;
+  margin-top:20px;
 }
 
-.features {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 20px;
+.card{
+  background:white;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
 }
 
-.feature {
-  background: #111827;
-  border: 1px solid #202b3d;
-  padding: 25px;
-  margin-bottom: 18px;
-  border-radius: 16px;
+.card h3{
+  margin-bottom:10px;
 }
 
-.feature h2 {
-  color: #00ff88;
-  font-size: 20px;
-  margin-bottom: 10px;
+.card p{
+  color:#667085;
+  line-height:1.5;
 }
 
-.feature p {
-  color: #aab3c5;
-  line-height: 1.5;
+.icon{
+  font-size:32px;
+  margin-bottom:12px;
 }
 
-.auth {
-  display: none;
-  max-width: 430px;
-  margin: 60px auto;
-  padding: 25px;
+.action{
+  margin-top:15px;
+  background:#2563eb;
+  color:white;
 }
 
-.auth-box {
-  background: #111827;
-  padding: 30px;
-  border-radius: 18px;
-  border: 1px solid #263247;
+.dashboard{
+  display:none;
 }
 
-.auth-box h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #00ff88;
+.login,
+.register,
+.admin{
+  display:none;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 15px;
-  border-radius: 9px;
-  border: 1px solid #334155;
-  background: #080d18;
-  color: white;
-  outline: none;
+.form-box{
+  max-width:450px;
+  margin:45px auto;
+  background:white;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
-input:focus {
-  border-color: #00ff88;
+.form-box h2{
+  margin-bottom:20px;
 }
 
-.auth-box button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 9px;
-  background: #00ff88;
-  color: #07110c;
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  font-size:15px;
 }
 
-.switch {
-  text-align: center;
-  margin-top: 18px;
-  color: #aab3c5;
+.primary{
+  width:100%;
+  background:#2563eb;
+  color:white;
 }
 
-.switch span {
-  color: #00ff88;
-  cursor: pointer;
+.link{
+  margin-top:15px;
+  text-align:center;
+  color:#2563eb;
+  cursor:pointer;
 }
 
-#dashboard {
-  display: none;
-  text-align: center;
-  padding: 70px 20px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-bottom:25px;
 }
 
-.admin-btn {
-  margin-top: 25px;
-  background: #00ff88;
-  color: #07110c;
-  padding: 12px 25px;
-  border-radius: 8px;
+.stat{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-.logout {
-  margin-top: 25px;
-  background: #ff4d4d;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 8px;
+.stat strong{
+  display:block;
+  font-size:28px;
+  margin-top:8px;
 }
 
-#adminPanel {
-  display: none;
-  max-width: 1000px;
-  margin: auto;
-  padding: 45px 20px;
+.admin-user{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin-top:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-#adminPanel h1 {
-  color: #00ff88;
-  margin-bottom: 10px;
+.admin-user p{
+  margin:7px 0;
+  color:#667085;
 }
 
-.admin-card {
-  background: #111827;
-  border: 1px solid #263247;
-  padding: 20px;
-  border-radius: 14px;
-  margin-top: 20px;
+.role-btn{
+  margin-top:10px;
+  background:#2563eb;
+  color:white;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.stat-box {
-  background: #080d18;
-  border: 1px solid #263247;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 30px;
-  font-weight: bold;
-  color: #00ff88;
-  margin-bottom: 8px;
-}
-
-.stat-title {
-  color: #aab3c5;
-}
-
-.search-box {
-  margin-top: 25px;
-}
-
-.search-box input {
-  margin-bottom: 0;
-}
-
-.admin-user {
-  background: #080d18;
-  border: 1px solid #263247;
-  padding: 18px;
-  border-radius: 12px;
-  margin-top: 12px;
-}
-
-.admin-user strong {
-  color: #00ff88;
-}
-
-.role-button {
-  margin-top: 15px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  background: #00ff88;
-  color: #07110c;
-  font-weight: bold;
-}
-
-.back-btn {
-  margin-top: 25px;
-  background: #334155;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 8px;
-}
-
-footer {
-  text-align: center;
-  padding: 35px;
-  color: #687386;
-}
-
-@media(max-width:600px) {
-
-  .hero h1 {
-    font-size: 32px;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  #adminPanel {
-    padding: 35px 15px;
-  }
-
+footer{
+  text-align:center;
+  padding:30px;
+  color:#667085;
 }
 </style>
 </head>
@@ -287,1039 +200,549 @@ footer {
 <body>
 
 <header>
-
-  <div class="logo">
-    ALPHA PLATFORM
-  </div>
-
-  <button
-    class="login-btn"
-    onclick="showLogin()"
-  >
-    Login
-  </button>
-
+  <div class="logo">ALPHA PLATFORM</div>
+  <button class="login-btn" id="headerLogin" onclick="showLogin()">Login</button>
 </header>
 
-
 <!-- HOME -->
-
 <section id="home">
+  <div class="container">
 
-  <div class="hero">
+    <div class="hero">
+      <h1>Welcome to Alpha Platform 🚀</h1>
+      <p>
+        Your smart digital platform for AI tools, account management,
+        payments and powerful online services.
+      </p>
+      <button class="action" onclick="showRegister()">Get Started</button>
+    </div>
 
-    <h1>
-      Welcome to <span>Alpha Platform</span>
-    </h1>
+    <div class="grid">
 
-    <p>
-      Smart tools, AI-powered services and a modern platform
-      built for the next generation.
-    </p>
+      <div class="card">
+        <div class="icon">🤖</div>
+        <h3>AI Tools</h3>
+        <p>Access powerful AI tools and smart digital services.</p>
+      </div>
 
-    <button
-      class="get-started"
-      onclick="showRegister()"
-    >
-      Get Started
-    </button>
+      <div class="card">
+        <div class="icon">👤</div>
+        <h3>User Account</h3>
+        <p>Create and manage your personal Alpha Platform account.</p>
+      </div>
 
+      <div class="card">
+        <div class="icon">💳</div>
+        <h3>Payments</h3>
+        <p>Payments and transactions will be available here.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">⚙️</div>
+        <h3>Admin Panel</h3>
+        <p>Secure management tools for Alpha Platform administrators.</p>
+      </div>
+
+    </div>
   </div>
-
-  <div class="features">
-
-    <div class="feature">
-      <h2>🤖 AI Tools</h2>
-      <p>
-        Access powerful AI features from one simple platform.
-      </p>
-    </div>
-
-    <div class="feature">
-      <h2>👤 User Account</h2>
-      <p>
-        Create an account and manage your Alpha Platform profile.
-      </p>
-    </div>
-
-    <div class="feature">
-      <h2>💳 Payments</h2>
-      <p>
-        Tanzania payment systems will be connected in the next stage.
-      </p>
-    </div>
-
-    <div class="feature">
-      <h2>⚙️ Admin Panel</h2>
-      <p>
-        Administrators can manage users and platform services.
-      </p>
-    </div>
-
-  </div>
-
 </section>
-
 
 <!-- LOGIN -->
+<section id="login" class="login">
+  <div class="form-box">
+    <h2>🔐 Login</h2>
 
-<section
-  class="auth"
-  id="login"
->
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
 
-  <div class="auth-box">
+    <button class="primary" onclick="login()">Login</button>
 
-    <h2>Login</h2>
-
-    <input
-      type="email"
-      id="loginEmail"
-      placeholder="Email address"
-    >
-
-    <input
-      type="password"
-      id="loginPassword"
-      placeholder="Password"
-    >
-
-    <button onclick="login()">
-      Login
-    </button>
-
-    <div class="switch">
-
-      Don't have an account?
-
-      <span onclick="showRegister()">
-        Register
-      </span>
-
+    <div class="link" onclick="showRegister()">
+      Don't have an account? Register
     </div>
 
+    <div class="link" onclick="showHome()">← Back Home</div>
   </div>
-
 </section>
-
 
 <!-- REGISTER -->
+<section id="register" class="register">
+  <div class="form-box">
+    <h2>📝 Create Account</h2>
 
-<section
-  class="auth"
-  id="register"
->
+    <input id="registerName" type="text" placeholder="Full Name">
+    <input id="registerEmail" type="email" placeholder="Email">
+    <input id="registerPassword" type="password" placeholder="Password">
 
-  <div class="auth-box">
+    <button class="primary" onclick="register()">Create Account</button>
 
-    <h2>Create Account</h2>
-
-    <input
-      type="text"
-      id="registerName"
-      placeholder="Full name"
-    >
-
-    <input
-      type="email"
-      id="registerEmail"
-      placeholder="Email address"
-    >
-
-    <input
-      type="password"
-      id="registerPassword"
-      placeholder="Create password"
-    >
-
-    <button onclick="register()">
-      Register
-    </button>
-
-    <div class="switch">
-
-      Already have an account?
-
-      <span onclick="showLogin()">
-        Login
-      </span>
-
+    <div class="link" onclick="showLogin()">
+      Already have an account? Login
     </div>
 
+    <div class="link" onclick="showHome()">← Back Home</div>
   </div>
-
 </section>
-
 
 <!-- DASHBOARD -->
+<section id="dashboard" class="dashboard">
+  <div class="container">
 
-<section id="dashboard">
+    <div class="hero">
+      <h1 id="welcomeName">Welcome 👋</h1>
+      <p>Welcome to your Alpha Platform Dashboard.</p>
+    </div>
 
-  <h1>
-    Welcome to Alpha Platform 🎉
-  </h1>
+    <div class="stats">
 
-  <p id="welcomeUser"></p>
+      <div class="stat">
+        👤 Account
+        <strong id="userRole">User</strong>
+      </div>
 
-  <button
-    id="adminButton"
-    class="admin-btn"
-    onclick="showAdminPanel()"
-    style="display:none;"
-  >
-    ⚙️ Admin Panel
-  </button>
+      <div class="stat">
+        🟢 Status
+        <strong>Active</strong>
+      </div>
 
-  <br>
+      <div class="stat">
+        🤖 AI
+        <strong>Coming Soon</strong>
+      </div>
 
-  <button
-    class="logout"
-    onclick="logout()"
-  >
-    Logout
-  </button>
+    </div>
 
+    <div class="grid">
+
+      <div class="card">
+        <div class="icon">🤖</div>
+        <h3>AI Tools</h3>
+        <p>Use powerful AI tools from your Alpha Platform account.</p>
+        <button class="action" onclick="comingSoon()">Open AI Tools</button>
+      </div>
+
+      <div class="card">
+        <div class="icon">💳</div>
+        <h3>Payments</h3>
+        <p>Manage your payments and transactions.</p>
+        <button class="action" onclick="comingSoon()">Payments</button>
+      </div>
+
+      <div class="card">
+        <div class="icon">👤</div>
+        <h3>My Account</h3>
+        <p>View your account information and profile.</p>
+        <button class="action" onclick="comingSoon()">My Account</button>
+      </div>
+
+      <div class="card" id="adminCard">
+        <div class="icon">⚙️</div>
+        <h3>Admin Panel</h3>
+        <p>Manage Alpha Platform users and system information.</p>
+        <button class="action" onclick="showAdminPanel()">Open Admin Panel</button>
+      </div>
+
+    </div>
+
+    <button
+      onclick="logout()"
+      style="margin-top:25px;background:#dc2626;color:white;">
+      🚪 Logout
+    </button>
+
+  </div>
 </section>
-
 
 <!-- ADMIN PANEL -->
+<section id="admin" class="admin">
+  <div class="container">
 
-<section id="adminPanel">
+    <div class="hero">
+      <h1>⚙️ Admin Panel</h1>
+      <p>Manage and monitor Alpha Platform users.</p>
+    </div>
 
-  <h1>
-    ⚙️ Admin Panel
-  </h1>
+    <div class="stats">
 
-  <p>
-    Manage and monitor Alpha Platform users.
-  </p>
-
-
-  <!-- STATISTICS -->
-
-  <div class="stats">
-
-    <div class="stat-box">
-
-      <div
-        class="stat-number"
-        id="totalUsers"
-      >
-        0
-      </div>
-
-      <div class="stat-title">
+      <div class="stat">
         👥 Total Users
+        <strong id="totalUsers">0</strong>
       </div>
 
-    </div>
-
-
-    <div class="stat-box">
-
-      <div
-        class="stat-number"
-        id="totalAdmins"
-      >
-        0
-      </div>
-
-      <div class="stat-title">
+      <div class="stat">
         👑 Admins
+        <strong id="totalAdmins">0</strong>
       </div>
 
-    </div>
-
-
-    <div class="stat-box">
-
-      <div
-        class="stat-number"
-        id="totalNormalUsers"
-      >
-        0
-      </div>
-
-      <div class="stat-title">
+      <div class="stat">
         👤 Normal Users
+        <strong id="totalNormalUsers">0</strong>
       </div>
 
     </div>
 
-  </div>
-
-
-  <!-- USER MANAGEMENT -->
-
-  <div class="admin-card">
-
-    <h2>
-      👥 User Management
-    </h2>
-
-
-    <!-- SEARCH -->
-
-    <div class="search-box">
+    <div class="card">
+      <h2>👥 User Management</h2>
 
       <input
+        id="searchUsers"
         type="text"
-        id="userSearch"
         placeholder="🔎 Search by name or email..."
         oninput="filterUsers()"
+        style="margin-top:15px;"
       >
 
+      <div id="usersList"></div>
     </div>
 
-
-    <div
-      id="userList"
-      style="margin-top:20px;"
-    >
-      Loading users...
-    </div>
+    <button
+      onclick="showDashboard(currentUser)"
+      style="margin-top:20px;background:#111827;color:white;">
+      ← Back to Dashboard
+    </button>
 
   </div>
-
-
-  <button
-    class="back-btn"
-    onclick="showDashboard(currentUser)"
-  >
-    ← Back to Dashboard
-  </button>
-
 </section>
 
-
 <footer>
-
   © 2026 Alpha Platform. All rights reserved.
-
 </footer>
-
 
 <script>
 
 const SUPABASE_URL =
-  "https://gbbcqgfosuxddrzqozvz.supabase.co";
+"https://gbbcqgfosuxddrzqozvz.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable__AZdeucoYG0UE-8SYw2GmA_OC_QKiNI";
+"sb_publishable__AZdeucoYG0UE-8SYw2GmA_OC_QKiNI";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 let currentUser = null;
-
 let allUsers = [];
 
-
-function hideAll() {
-
-  document.getElementById("home")
-    .style.display = "none";
-
-  document.getElementById("login")
-    .style.display = "none";
-
-  document.getElementById("register")
-    .style.display = "none";
-
-  document.getElementById("dashboard")
-    .style.display = "none";
-
-  document.getElementById("adminPanel")
-    .style.display = "none";
-
+function hideAll(){
+  document.getElementById("home").style.display="none";
+  document.getElementById("login").style.display="none";
+  document.getElementById("register").style.display="none";
+  document.getElementById("dashboard").style.display="none";
+  document.getElementById("admin").style.display="none";
 }
 
+function showHome(){
+  hideAll();
+  document.getElementById("home").style.display="block";
+}
 
-function showLogin() {
+function showLogin(){
+  hideAll();
+  document.getElementById("login").style.display="block";
+}
 
+function showRegister(){
+  hideAll();
+  document.getElementById("register").style.display="block";
+}
+
+function showDashboard(user){
   hideAll();
 
-  document.getElementById("login")
-    .style.display = "block";
+  currentUser=user;
 
+  document.getElementById("dashboard").style.display="block";
+
+  loadProfile(user);
 }
 
+async function loadProfile(user){
 
-function showRegister() {
+  const {data,error}=await supabaseClient
+    .from("users")
+    .select("full_name,role")
+    .eq("id",user.id)
+    .single();
 
-  hideAll();
+  if(error){
+    console.error(error);
+    return;
+  }
 
-  document.getElementById("register")
-    .style.display = "block";
+  document.getElementById("welcomeName").textContent =
+    "Welcome, " + data.full_name + " 👋";
 
+  document.getElementById("userRole").textContent =
+    data.role === "admin" ? "Admin" : "User";
+
+  document.getElementById("adminCard").style.display =
+    data.role === "admin" ? "block" : "none";
 }
 
-
-/* REGISTER */
-
-async function register() {
+async function register(){
 
   const name =
-    document.getElementById("registerName")
-      .value
-      .trim();
+    document.getElementById("registerName").value.trim();
 
   const email =
-    document.getElementById("registerEmail")
-      .value
-      .trim();
+    document.getElementById("registerEmail").value.trim();
 
   const password =
-    document.getElementById("registerPassword")
-      .value;
+    document.getElementById("registerPassword").value;
 
-
-  if (!name || !email || !password) {
-
+  if(!name || !email || !password){
     alert("Please fill all fields.");
-
     return;
-
   }
 
+  const {data,error}=await supabaseClient.auth.signUp({
+    email:email,
+    password:password
+  });
 
-  if (password.length < 6) {
-
-    alert(
-      "Password must be at least 6 characters."
-    );
-
+  if(error){
+    alert(error.message);
     return;
-
   }
 
+  if(!data.user){
+    alert("Account creation failed.");
+    return;
+  }
 
-  const { data, error } =
-    await supabaseClient.auth.signUp({
-
-      email: email,
-
-      password: password,
-
-      options: {
-
-        data: {
-          full_name: name
-        }
-
-      }
-
+  const {error:profileError}=await supabaseClient
+    .from("users")
+    .insert({
+      id:data.user.id,
+      full_name:name,
+      email:email,
+      role:"user"
     });
 
-
-  if (error) {
-
-    alert(error.message);
-
+  if(profileError){
+    alert(profileError.message);
     return;
-
   }
 
+  alert("Account created successfully!");
 
-  if (!data.user) {
-
-    alert("Registration failed.");
-
-    return;
-
-  }
-
-
-  const { error: profileError } =
-    await supabaseClient
-      .from("users")
-      .insert({
-
-        id: data.user.id,
-
-        full_name: name,
-
-        email: email
-
-      });
-
-
-  if (profileError) {
-
-    console.error(profileError);
-
-    alert(
-      "Account created, but profile could not be saved: "
-      + profileError.message
-    );
-
-    return;
-
-  }
-
-
-  if (data.session) {
-
-    showDashboard(data.user);
-
-  } else {
-
-    alert(
-      "Account created successfully!"
-    );
-
-    showLogin();
-
-  }
-
-}
-
-
-/* LOGIN */
-
-async function login() {
-
-  const email =
-    document.getElementById("loginEmail")
-      .value
-      .trim();
-
-  const password =
-    document.getElementById("loginPassword")
-      .value;
-
-
-  if (!email || !password) {
-
-    alert(
-      "Please enter your email and password."
-    );
-
-    return;
-
-  }
-
-
-  const { data, error } =
-    await supabaseClient.auth
-      .signInWithPassword({
-
-        email: email,
-
-        password: password
-
-      });
-
-
-  if (error) {
-
-    alert(error.message);
-
-    return;
-
-  }
-
-
-  currentUser = data.user;
+  currentUser=data.user;
 
   showDashboard(data.user);
-
 }
 
+async function login(){
 
-/* DASHBOARD */
+  const email =
+    document.getElementById("loginEmail").value.trim();
 
-async function showDashboard(user) {
+  const password =
+    document.getElementById("loginPassword").value;
 
-  currentUser = user;
-
-  hideAll();
-
-
-  document.getElementById("dashboard")
-    .style.display = "block";
-
-
-  let name =
-    user.user_metadata?.full_name;
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("users")
-      .select(
-        "full_name, role"
-      )
-      .eq(
-        "id",
-        user.id
-      )
-      .single();
-
-
-  if (!error && data) {
-
-    name = data.full_name;
-
-
-    if (data.role === "admin") {
-
-      document.getElementById("adminButton")
-        .style.display = "inline-block";
-
-    } else {
-
-      document.getElementById("adminButton")
-        .style.display = "none";
-
-    }
-
-  } else {
-
-    document.getElementById("adminButton")
-      .style.display = "none";
-
-  }
-
-
-  document.getElementById("welcomeUser")
-    .innerText =
-      "Hello "
-      + (name || "User")
-      + "! You are now logged in.";
-
-}
-
-
-/* ADMIN PANEL */
-
-async function showAdminPanel() {
-
-  if (!currentUser) {
-
-    alert(
-      "Please login first."
-    );
-
+  if(!email || !password){
+    alert("Please enter email and password.");
     return;
-
   }
 
+  const {data,error}=await supabaseClient.auth.signInWithPassword({
+    email:email,
+    password:password
+  });
 
-  const {
-    data: profile,
-    error: profileError
-  } =
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  currentUser=data.user;
+
+  showDashboard(data.user);
+}
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  currentUser=null;
+
+  showHome();
+}
+
+async function showAdminPanel(){
+
+  if(!currentUser){
+    showLogin();
+    return;
+  }
+
+  const {data:profile,error:profileError}=
     await supabaseClient
       .from("users")
       .select("role")
-      .eq(
-        "id",
-        currentUser.id
-      )
+      .eq("id",currentUser.id)
       .single();
 
-
-  if (
-    profileError ||
-    !profile ||
-    profile.role !== "admin"
-  ) {
-
-    alert(
-      "Access denied. Admins only."
-    );
-
+  if(profileError || profile.role !== "admin"){
+    alert("Access denied.");
+    showDashboard(currentUser);
     return;
-
   }
-
 
   hideAll();
 
+  document.getElementById("admin").style.display="block";
 
-  document.getElementById("adminPanel")
-    .style.display = "block";
+  const {data:users,error}=await supabaseClient
+    .from("users")
+    .select("id,full_name,email,role,created_at")
+    .order("created_at",{ascending:false});
 
-
-  document.getElementById("userSearch")
-    .value = "";
-
-
-  document.getElementById("userList")
-    .innerHTML =
-      "Loading users...";
-
-
-  const {
-    data: users,
-    error
-  } =
-    await supabaseClient
-      .from("users")
-      .select(
-        "id, full_name, email, role, created_at"
-      )
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
-
-
-  if (error) {
-
-    document.getElementById("userList")
-      .innerHTML =
-        "<p>Failed to load users: "
-        + error.message
-        + "</p>";
-
+  if(error){
+    alert(error.message);
     return;
-
   }
 
-
-  allUsers = users || [];
-
+  allUsers=users || [];
 
   updateStatistics();
 
   displayUsers(allUsers);
-
 }
 
+function updateStatistics(){
 
-/* STATISTICS */
-
-function updateStatistics() {
-
-  const total =
+  document.getElementById("totalUsers").textContent =
     allUsers.length;
 
+  document.getElementById("totalAdmins").textContent =
+    allUsers.filter(user=>user.role==="admin").length;
 
-  const admins =
-    allUsers.filter(
-      function(user) {
-        return user.role === "admin";
-      }
-    ).length;
-
-
-  const normalUsers =
-    allUsers.filter(
-      function(user) {
-        return user.role === "user";
-      }
-    ).length;
-
-
-  document.getElementById("totalUsers")
-    .innerText = total;
-
-
-  document.getElementById("totalAdmins")
-    .innerText = admins;
-
-
-  document.getElementById("totalNormalUsers")
-    .innerText = normalUsers;
-
+  document.getElementById("totalNormalUsers").textContent =
+    allUsers.filter(user=>user.role==="user").length;
 }
 
+function displayUsers(users){
 
-/* DISPLAY USERS */
+  const list=document.getElementById("usersList");
 
-function displayUsers(users) {
+  list.innerHTML="";
 
-  const userList =
-    document.getElementById(
-      "userList"
-    );
-
-
-  userList.innerHTML = "";
-
-
-  if (users.length === 0) {
-
-    userList.innerHTML =
-      "<p style='color:#aab3c5;'>No users found.</p>";
-
+  if(users.length===0){
+    list.innerHTML="<p style='margin-top:20px;'>No users found.</p>";
     return;
-
   }
 
+  users.forEach(user=>{
 
-  users.forEach(function(user) {
+    const box=document.createElement("div");
 
-    const card =
-      document.createElement("div");
+    box.className="admin-user";
 
-    card.className =
-      "admin-user";
+    const name=document.createElement("h3");
+    name.textContent="👤 " + user.full_name;
 
+    const email=document.createElement("p");
+    email.textContent="📧 " + user.email;
 
-    const name =
-      document.createElement("p");
+    const role=document.createElement("p");
+    role.textContent="🔐 Role: " + user.role;
 
-    const nameStrong =
-      document.createElement("strong");
+    const date=document.createElement("p");
 
+    date.textContent=
+      "📅 Created: " +
+      new Date(user.created_at).toLocaleDateString();
 
-    nameStrong.textContent =
-      "👤 "
-      + (
-          user.full_name
-          || "No name"
-        );
+    const button=document.createElement("button");
 
+    button.className="role-btn";
 
-    name.appendChild(
-      nameStrong
-    );
+    button.textContent =
+      user.role==="admin"
+      ? "Make User"
+      : "Make Admin";
 
+    button.onclick=()=>changeRole(user);
 
-    const email =
-      document.createElement("p");
+    box.appendChild(name);
+    box.appendChild(email);
+    box.appendChild(role);
+    box.appendChild(date);
+    box.appendChild(button);
 
-    email.textContent =
-      "📧 "
-      + user.email;
-
-
-    const role =
-      document.createElement("p");
-
-    role.textContent =
-      "🔐 Role: "
-      + user.role;
-
-
-    const date =
-      document.createElement("p");
-
-    date.textContent =
-      "📅 Created: "
-      + new Date(
-          user.created_at
-        ).toLocaleDateString();
-
-
-    card.appendChild(name);
-
-    card.appendChild(email);
-
-    card.appendChild(role);
-
-    card.appendChild(date);
-
-
-    /* CHANGE ROLE */
-
-    const roleButton =
-      document.createElement("button");
-
-
-    roleButton.className =
-      "role-button";
-
-
-    roleButton.textContent =
-      user.role === "admin"
-        ? "Make User"
-        : "Make Admin";
-
-
-    roleButton.onclick =
-      async function() {
-
-        if (
-          user.id === currentUser.id
-        ) {
-
-          alert(
-            "You cannot change your own admin role."
-          );
-
-          return;
-
-        }
-
-
-        const newRole =
-          user.role === "admin"
-            ? "user"
-            : "admin";
-
-
-        const confirmed =
-          confirm(
-            "Change "
-            + user.email
-            + " role to "
-            + newRole
-            + "?"
-          );
-
-
-        if (!confirmed) {
-
-          return;
-
-        }
-
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("users")
-            .update({
-
-              role: newRole
-
-            })
-            .eq(
-              "id",
-              user.id
-            );
-
-
-        if (error) {
-
-          alert(
-            "Failed to change role: "
-            + error.message
-          );
-
-          return;
-
-        }
-
-
-        alert(
-          "Role changed to "
-          + newRole
-        );
-
-
-        showAdminPanel();
-
-      };
-
-
-    card.appendChild(
-      roleButton
-    );
-
-
-    userList.appendChild(
-      card
-    );
-
+    list.appendChild(box);
   });
-
 }
 
+function filterUsers(){
 
-/* SEARCH */
-
-function filterUsers() {
-
-  const search =
-    document.getElementById(
-      "userSearch"
-    )
+  const search=
+    document.getElementById("searchUsers")
     .value
-    .toLowerCase()
-    .trim();
+    .toLowerCase();
 
-
-  const filteredUsers =
-    allUsers.filter(
-      function(user) {
-
-        const name =
-          (
-            user.full_name
-            || ""
-          ).toLowerCase();
-
-
-        const email =
-          (
-            user.email
-            || ""
-          ).toLowerCase();
-
-
-        return (
-          name.includes(search)
-          ||
-          email.includes(search)
-        );
-
-      }
-    );
-
-
-  displayUsers(
-    filteredUsers
+  const filtered=allUsers.filter(user=>
+    user.full_name.toLowerCase().includes(search) ||
+    user.email.toLowerCase().includes(search)
   );
 
+  displayUsers(filtered);
 }
 
+async function changeRole(user){
 
-/* LOGOUT */
-
-async function logout() {
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-
-  hideAll();
-
-
-  document.getElementById("home")
-    .style.display = "block";
-
-}
-
-
-/* CHECK SESSION */
-
-async function checkSession() {
-
-  const { data } =
-    await supabaseClient.auth
-      .getSession();
-
-
-  if (data.session) {
-
-    currentUser =
-      data.session.user;
-
-
-    showDashboard(
-      data.session.user
-    );
-
+  if(user.id===currentUser.id){
+    alert("You cannot change your own admin role.");
+    return;
   }
 
+  const newRole =
+    user.role==="admin"
+    ? "user"
+    : "admin";
+
+  const {error}=await supabaseClient
+    .from("users")
+    .update({role:newRole})
+    .eq("id",user.id);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  alert("Role updated successfully.");
+
+  showAdminPanel();
 }
 
+function comingSoon(){
+
+  alert("🚀 This feature is coming soon.");
+}
+
+async function checkSession(){
+
+  const {data}=await supabaseClient.auth.getSession();
+
+  if(data.session){
+
+    currentUser=data.session.user;
+
+    showDashboard(currentUser);
+
+  }else{
+
+    showHome();
+
+  }
+}
 
 checkSession();
 
 </script>
 
 </body>
-  </html>
+          </html>
