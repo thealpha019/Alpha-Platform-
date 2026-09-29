@@ -209,6 +209,15 @@ input:focus {
   color: #00ff88;
 }
 
+.role-button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #00ff88;
+  color: #07110c;
+  font-weight: bold;
+}
+
 .back-btn {
   margin-top: 25px;
   background: #334155;
@@ -224,6 +233,7 @@ footer {
 }
 
 @media(max-width:600px) {
+
   .hero h1 {
     font-size: 32px;
   }
@@ -231,6 +241,7 @@ footer {
   #adminPanel {
     padding: 35px 15px;
   }
+
 }
 </style>
 </head>
@@ -238,15 +249,23 @@ footer {
 <body>
 
 <header>
-  <div class="logo">ALPHA PLATFORM</div>
 
-  <button class="login-btn" onclick="showLogin()">
+  <div class="logo">
+    ALPHA PLATFORM
+  </div>
+
+  <button
+    class="login-btn"
+    onclick="showLogin()"
+  >
     Login
   </button>
+
 </header>
 
 
 <!-- HOME -->
+
 <section id="home">
 
   <div class="hero">
@@ -260,7 +279,10 @@ footer {
       built for the next generation.
     </p>
 
-    <button class="get-started" onclick="showRegister()">
+    <button
+      class="get-started"
+      onclick="showRegister()"
+    >
       Get Started
     </button>
 
@@ -270,31 +292,46 @@ footer {
   <div class="features">
 
     <div class="feature">
+
       <h2>🤖 AI Tools</h2>
+
       <p>
         Access powerful AI features from one simple platform.
       </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>👤 User Account</h2>
+
       <p>
         Create an account and manage your Alpha Platform profile.
       </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>💳 Payments</h2>
+
       <p>
         Tanzania payment systems will be connected in the next stage.
       </p>
+
     </div>
 
+
     <div class="feature">
+
       <h2>⚙️ Admin Panel</h2>
+
       <p>
         Administrators can manage users and platform services.
       </p>
+
     </div>
 
   </div>
@@ -303,7 +340,11 @@ footer {
 
 
 <!-- LOGIN -->
-<section class="auth" id="login">
+
+<section
+  class="auth"
+  id="login"
+>
 
   <div class="auth-box">
 
@@ -326,10 +367,13 @@ footer {
     </button>
 
     <div class="switch">
+
       Don't have an account?
+
       <span onclick="showRegister()">
         Register
       </span>
+
     </div>
 
   </div>
@@ -338,7 +382,11 @@ footer {
 
 
 <!-- REGISTER -->
-<section class="auth" id="register">
+
+<section
+  class="auth"
+  id="register"
+>
 
   <div class="auth-box">
 
@@ -367,10 +415,13 @@ footer {
     </button>
 
     <div class="switch">
+
       Already have an account?
+
       <span onclick="showLogin()">
         Login
       </span>
+
     </div>
 
   </div>
@@ -379,6 +430,7 @@ footer {
 
 
 <!-- DASHBOARD -->
+
 <section id="dashboard">
 
   <h1>
@@ -398,7 +450,10 @@ footer {
 
   <br>
 
-  <button class="logout" onclick="logout()">
+  <button
+    class="logout"
+    onclick="logout()"
+  >
     Logout
   </button>
 
@@ -406,25 +461,35 @@ footer {
 
 
 <!-- ADMIN PANEL -->
+
 <section id="adminPanel">
 
-  <h1>⚙️ Admin Panel</h1>
+  <h1>
+    ⚙️ Admin Panel
+  </h1>
 
   <p>
     Manage and view Alpha Platform users.
   </p>
 
+
   <div class="admin-card">
 
-    <h2>👥 Users</h2>
+    <h2>
+      👥 Users
+    </h2>
 
-    <p id="userCount" style="margin-top:10px;"></p>
+    <p
+      id="userCount"
+      style="margin-top:10px;"
+    ></p>
 
     <div id="userList">
       Loading users...
     </div>
 
   </div>
+
 
   <button
     class="back-btn"
@@ -437,7 +502,9 @@ footer {
 
 
 <footer>
+
   © 2026 Alpha Platform. All rights reserved.
+
 </footer>
 
 
@@ -461,15 +528,20 @@ let currentUser = null;
 
 function hideAll() {
 
-  document.getElementById("home").style.display = "none";
+  document.getElementById("home")
+    .style.display = "none";
 
-  document.getElementById("login").style.display = "none";
+  document.getElementById("login")
+    .style.display = "none";
 
-  document.getElementById("register").style.display = "none";
+  document.getElementById("register")
+    .style.display = "none";
 
-  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("dashboard")
+    .style.display = "none";
 
-  document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("adminPanel")
+    .style.display = "none";
 
 }
 
@@ -478,7 +550,8 @@ function showLogin() {
 
   hideAll();
 
-  document.getElementById("login").style.display = "block";
+  document.getElementById("login")
+    .style.display = "block";
 
 }
 
@@ -487,7 +560,8 @@ function showRegister() {
 
   hideAll();
 
-  document.getElementById("register").style.display = "block";
+  document.getElementById("register")
+    .style.display = "block";
 
 }
 
@@ -522,7 +596,9 @@ async function register() {
 
   if (password.length < 6) {
 
-    alert("Password must be at least 6 characters.");
+    alert(
+      "Password must be at least 6 characters."
+    );
 
     return;
 
@@ -600,7 +676,7 @@ async function register() {
   } else {
 
     alert(
-      "Account created successfully! Please check your email to confirm your account."
+      "Account created successfully!"
     );
 
     showLogin();
@@ -670,6 +746,7 @@ async function showDashboard(user) {
 
   hideAll();
 
+
   document.getElementById("dashboard")
     .style.display = "block";
 
@@ -681,8 +758,13 @@ async function showDashboard(user) {
   const { data, error } =
     await supabaseClient
       .from("users")
-      .select("full_name, role")
-      .eq("id", user.id)
+      .select(
+        "full_name, role"
+      )
+      .eq(
+        "id",
+        user.id
+      )
       .single();
 
 
@@ -726,18 +808,26 @@ async function showAdminPanel() {
 
   if (!currentUser) {
 
-    alert("Please login first.");
+    alert(
+      "Please login first."
+    );
 
     return;
 
   }
 
 
-  const { data: profile, error: profileError } =
+  const {
+    data: profile,
+    error: profileError
+  } =
     await supabaseClient
       .from("users")
       .select("role")
-      .eq("id", currentUser.id)
+      .eq(
+        "id",
+        currentUser.id
+      )
       .single();
 
 
@@ -747,7 +837,9 @@ async function showAdminPanel() {
     profile.role !== "admin"
   ) {
 
-    alert("Access denied. Admins only.");
+    alert(
+      "Access denied. Admins only."
+    );
 
     return;
 
@@ -756,15 +848,20 @@ async function showAdminPanel() {
 
   hideAll();
 
+
   document.getElementById("adminPanel")
     .style.display = "block";
 
 
   document.getElementById("userList")
-    .innerHTML = "Loading users...";
+    .innerHTML =
+      "Loading users...";
 
 
-  const { data: users, error } =
+  const {
+    data: users,
+    error
+  } =
     await supabaseClient
       .from("users")
       .select(
@@ -772,7 +869,9 @@ async function showAdminPanel() {
       )
       .order(
         "created_at",
-        { ascending: false }
+        {
+          ascending: false
+        }
       );
 
 
@@ -791,11 +890,14 @@ async function showAdminPanel() {
 
   document.getElementById("userCount")
     .innerText =
-      "Total users: " + users.length;
+      "Total users: "
+      + users.length;
 
 
   const userList =
-    document.getElementById("userList");
+    document.getElementById(
+      "userList"
+    );
 
 
   userList.innerHTML = "";
@@ -806,7 +908,8 @@ async function showAdminPanel() {
     const card =
       document.createElement("div");
 
-    card.className = "admin-user";
+    card.className =
+      "admin-user";
 
 
     const name =
@@ -815,24 +918,34 @@ async function showAdminPanel() {
     const nameStrong =
       document.createElement("strong");
 
-    nameStrong.textContent =
-      "👤 " + (user.full_name || "No name");
 
-    name.appendChild(nameStrong);
+    nameStrong.textContent =
+      "👤 "
+      + (
+          user.full_name
+          || "No name"
+        );
+
+
+    name.appendChild(
+      nameStrong
+    );
 
 
     const email =
       document.createElement("p");
 
     email.textContent =
-      "📧 " + user.email;
+      "📧 "
+      + user.email;
 
 
     const role =
       document.createElement("p");
 
     role.textContent =
-      "🔐 Role: " + user.role;
+      "🔐 Role: "
+      + user.role;
 
 
     const date =
@@ -840,8 +953,9 @@ async function showAdminPanel() {
 
     date.textContent =
       "📅 Created: "
-      + new Date(user.created_at)
-        .toLocaleDateString();
+      + new Date(
+          user.created_at
+        ).toLocaleDateString();
 
 
     card.appendChild(name);
@@ -853,7 +967,110 @@ async function showAdminPanel() {
     card.appendChild(date);
 
 
-    userList.appendChild(card);
+    /* CHANGE ROLE BUTTON */
+
+    const roleButton =
+      document.createElement("button");
+
+
+    roleButton.className =
+      "role-button";
+
+
+    roleButton.textContent =
+      user.role === "admin"
+        ? "Make User"
+        : "Make Admin";
+
+
+    roleButton.onclick =
+      async function() {
+
+        const newRole =
+          user.role === "admin"
+            ? "user"
+            : "admin";
+
+
+        /* Prevent changing your own role */
+
+        if (
+          user.id === currentUser.id
+        ) {
+
+          alert(
+            "You cannot change your own admin role."
+          );
+
+          return;
+
+        }
+
+
+        const confirmed =
+          confirm(
+            "Change "
+            + user.email
+            + " role to "
+            + newRole
+            + "?"
+          );
+
+
+        if (!confirmed) {
+
+          return;
+
+        }
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("users")
+            .update({
+
+              role: newRole
+
+            })
+            .eq(
+              "id",
+              user.id
+            );
+
+
+        if (error) {
+
+          alert(
+            "Failed to change role: "
+            + error.message
+          );
+
+          return;
+
+        }
+
+
+        alert(
+          "Role changed to "
+          + newRole
+        );
+
+
+        showAdminPanel();
+
+      };
+
+
+    card.appendChild(
+      roleButton
+    );
+
+
+    userList.appendChild(
+      card
+    );
 
   });
 
@@ -870,6 +1087,7 @@ async function logout() {
 
   hideAll();
 
+
   document.getElementById("home")
     .style.display = "block";
 
@@ -881,13 +1099,15 @@ async function logout() {
 async function checkSession() {
 
   const { data } =
-    await supabaseClient.auth.getSession();
+    await supabaseClient.auth
+      .getSession();
 
 
   if (data.session) {
 
     currentUser =
       data.session.user;
+
 
     showDashboard(
       data.session.user
