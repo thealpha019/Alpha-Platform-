@@ -109,7 +109,7 @@ button{
 .login,
 .register,
 .admin,
-.ai-tools{
+.products{
   display:none;
 }
 
@@ -127,7 +127,8 @@ button{
 }
 
 input,
-textarea{
+textarea,
+select{
   width:100%;
   padding:14px;
   margin-bottom:14px;
@@ -137,7 +138,7 @@ textarea{
 }
 
 textarea{
-  min-height:150px;
+  min-height:120px;
   resize:vertical;
 }
 
@@ -193,46 +194,55 @@ textarea{
   color:white;
 }
 
-.ai-box{
-  background:white;
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
+.product-card{
+  overflow:hidden;
+  padding:0;
 }
 
-.ai-box h2{
-  margin-bottom:10px;
+.product-image{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  background:#e5e7eb;
 }
 
-.ai-box .description{
+.product-content{
+  padding:18px;
+}
+
+.product-price{
+  font-size:22px;
+  font-weight:bold;
+  color:#2563eb;
+  margin:10px 0;
+}
+
+.stock{
   color:#667085;
-  margin-bottom:20px;
-  line-height:1.5;
+  font-size:14px;
 }
 
-.ai-response{
-  display:none;
-  margin-top:20px;
-  background:#f4f7fb;
-  padding:20px;
-  border-radius:14px;
-  white-space:pre-wrap;
-  line-height:1.6;
-}
-
-.ai-buttons{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.ai-buttons button{
-  background:#2563eb;
+.buy-btn{
+  width:100%;
+  margin-top:15px;
+  background:#16a34a;
   color:white;
 }
 
-.ai-buttons .clear{
-  background:#64748b;
+.add-product{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  margin-bottom:25px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.add-product h2{
+  margin-bottom:20px;
+}
+
+.hidden{
+  display:none;
 }
 
 footer{
@@ -257,8 +267,8 @@ footer{
     <div class="hero">
       <h1>Welcome to Alpha Platform 🚀</h1>
       <p>
-        Your smart digital platform for AI tools, account management,
-        payments and powerful online services.
+        Your smart digital platform for products, payments,
+        account management and online services.
       </p>
       <button class="action" onclick="showRegister()">Get Started</button>
     </div>
@@ -266,9 +276,9 @@ footer{
     <div class="grid">
 
       <div class="card">
-        <div class="icon">🤖</div>
-        <h3>AI Tools</h3>
-        <p>Access powerful AI tools and smart digital services.</p>
+        <div class="icon">🛍️</div>
+        <h3>Products</h3>
+        <p>Browse products available on Alpha Platform.</p>
       </div>
 
       <div class="card">
@@ -352,8 +362,8 @@ footer{
       </div>
 
       <div class="stat">
-        🤖 AI
-        <strong>Ready</strong>
+        🛍️ Products
+        <strong id="productCount">0</strong>
       </div>
 
     </div>
@@ -361,10 +371,10 @@ footer{
     <div class="grid">
 
       <div class="card">
-        <div class="icon">🤖</div>
-        <h3>AI Tools</h3>
-        <p>Use powerful AI tools from your Alpha Platform account.</p>
-        <button class="action" onclick="showAITools()">Open AI Tools</button>
+        <div class="icon">🛍️</div>
+        <h3>Products</h3>
+        <p>Browse products available on Alpha Platform.</p>
+        <button class="action" onclick="showProducts()">Open Products</button>
       </div>
 
       <div class="card">
@@ -384,7 +394,7 @@ footer{
       <div class="card" id="adminCard">
         <div class="icon">⚙️</div>
         <h3>Admin Panel</h3>
-        <p>Manage Alpha Platform users and system information.</p>
+        <p>Manage Alpha Platform users and products.</p>
         <button class="action" onclick="showAdminPanel()">Open Admin Panel</button>
       </div>
 
@@ -399,47 +409,19 @@ footer{
   </div>
 </section>
 
-<!-- AI TOOLS -->
-<section id="ai-tools" class="ai-tools">
+<!-- PRODUCTS -->
+<section id="products" class="products">
 
   <div class="container">
 
     <div class="hero">
-      <h1>🤖 Alpha AI Tools</h1>
+      <h1>🛍️ Alpha Products</h1>
       <p>
-        Your intelligent assistant inside Alpha Platform.
+        Browse products available on Alpha Platform.
       </p>
     </div>
 
-    <div class="ai-box">
-
-      <h2>✨ Ask Alpha AI</h2>
-
-      <p class="description">
-        Write your question, idea or task below.
-        The AI assistant will process your request.
-      </p>
-
-      <textarea
-        id="aiPrompt"
-        placeholder="Ask Alpha AI anything..."
-      ></textarea>
-
-      <div class="ai-buttons">
-
-        <button onclick="runAI()">
-          🤖 Ask AI
-        </button>
-
-        <button class="clear" onclick="clearAI()">
-          🧹 Clear
-        </button>
-
-      </div>
-
-      <div id="aiResponse" class="ai-response"></div>
-
-    </div>
+    <div id="productsGrid" class="grid"></div>
 
     <button
       onclick="showDashboard(currentUser)"
@@ -457,7 +439,7 @@ footer{
 
     <div class="hero">
       <h1>⚙️ Admin Panel</h1>
-      <p>Manage and monitor Alpha Platform users.</p>
+      <p>Manage Alpha Platform users and products.</p>
     </div>
 
     <div class="stats">
@@ -479,6 +461,44 @@ footer{
 
     </div>
 
+    <!-- ADD PRODUCT -->
+    <div class="add-product">
+
+      <h2>➕ Add Product</h2>
+
+      <input
+        id="productName"
+        type="text"
+        placeholder="Product name">
+
+      <textarea
+        id="productDescription"
+        placeholder="Product description"></textarea>
+
+      <input
+        id="productPrice"
+        type="number"
+        placeholder="Price in TZS">
+
+      <input
+        id="productImage"
+        type="url"
+        placeholder="Product image URL">
+
+      <input
+        id="productStock"
+        type="number"
+        placeholder="Stock">
+
+      <button
+        class="primary"
+        onclick="addProduct()">
+        ➕ Add Product
+      </button>
+
+    </div>
+
+    <!-- USERS -->
     <div class="card">
 
       <h2>👥 User Management</h2>
@@ -488,8 +508,7 @@ footer{
         type="text"
         placeholder="🔎 Search by name or email..."
         oninput="filterUsers()"
-        style="margin-top:15px;"
-      >
+        style="margin-top:15px;">
 
       <div id="usersList"></div>
 
@@ -532,7 +551,7 @@ function hideAll(){
   document.getElementById("register").style.display="none";
   document.getElementById("dashboard").style.display="none";
   document.getElementById("admin").style.display="none";
-  document.getElementById("ai-tools").style.display="none";
+  document.getElementById("products").style.display="none";
 
 }
 
@@ -596,6 +615,24 @@ async function loadProfile(user){
 
   document.getElementById("adminCard").style.display =
     data.role === "admin" ? "block" : "none";
+
+  loadProductCount();
+
+}
+
+async function loadProductCount(){
+
+  const {count,error}=await supabaseClient
+    .from("products")
+    .select("*",{count:"exact",head:true})
+    .eq("is_active",true);
+
+  if(!error){
+
+    document.getElementById("productCount").textContent =
+      count || 0;
+
+  }
 
 }
 
@@ -720,7 +757,7 @@ async function logout(){
 
 }
 
-function showAITools(){
+async function showProducts(){
 
   if(!currentUser){
 
@@ -732,47 +769,131 @@ function showAITools(){
 
   hideAll();
 
-  document.getElementById("ai-tools").style.display="block";
+  document.getElementById("products").style.display="block";
+
+  await loadProducts();
 
 }
 
-function runAI(){
+async function loadProducts(){
 
-  const prompt =
-    document.getElementById("aiPrompt").value.trim();
+  const grid =
+    document.getElementById("productsGrid");
 
-  if(!prompt){
+  grid.innerHTML =
+    "<p>Loading products...</p>";
 
-    alert("Please write something for Alpha AI.");
+  const {data,error}=await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("is_active",true)
+    .order("created_at",{ascending:false});
+
+  if(error){
+
+    grid.innerHTML =
+      "<p>Unable to load products.</p>";
+
+    console.error(error);
 
     return;
 
   }
 
-  const response =
-    document.getElementById("aiResponse");
+  if(!data || data.length===0){
 
-  response.style.display="block";
+    grid.innerHTML =
+      "<div class='card'>" +
+      "<h3>No products yet</h3>" +
+      "<p>Products will appear here when the admin adds them.</p>" +
+      "</div>";
 
-  response.textContent =
-    "🤖 Alpha AI\n\n" +
-    "Your request has been received:\n\n" +
-    prompt +
-    "\n\n" +
-    "⚡ Real AI connection will be activated in the next step.";
+    return;
+
+  }
+
+  grid.innerHTML="";
+
+  data.forEach(product=>{
+
+    const card=document.createElement("div");
+
+    card.className="card product-card";
+
+    const image=document.createElement("img");
+
+    image.className="product-image";
+
+    image.src=product.image_url ||
+      "https://via.placeholder.com/600x400?text=Alpha+Product";
+
+    image.alt=product.name;
+
+    const content=document.createElement("div");
+
+    content.className="product-content";
+
+    const name=document.createElement("h3");
+
+    name.textContent=product.name;
+
+    const description=document.createElement("p");
+
+    description.textContent=
+      product.description || "No description available.";
+
+    const price=document.createElement("div");
+
+    price.className="product-price";
+
+    price.textContent=
+      "TZS " +
+      Number(product.price).toLocaleString();
+
+    const stock=document.createElement("div");
+
+    stock.className="stock";
+
+    stock.textContent=
+      product.stock > 0
+      ? "📦 Stock: " + product.stock
+      : "❌ Out of stock";
+
+    const button=document.createElement("button");
+
+    button.className="buy-btn";
+
+    button.textContent=
+      product.stock > 0
+      ? "🛒 Buy Now"
+      : "Out of Stock";
+
+    button.disabled=product.stock <= 0;
+
+    button.onclick=()=>buyProduct(product);
+
+    content.appendChild(name);
+    content.appendChild(description);
+    content.appendChild(price);
+    content.appendChild(stock);
+    content.appendChild(button);
+
+    card.appendChild(image);
+    card.appendChild(content);
+
+    grid.appendChild(card);
+
+  });
 
 }
 
-function clearAI(){
+function buyProduct(product){
 
-  document.getElementById("aiPrompt").value="";
-
-  const response =
-    document.getElementById("aiResponse");
-
-  response.style.display="none";
-
-  response.textContent="";
+  alert(
+    "🛒 " +
+    product.name +
+    "\n\nPayment system will be connected in the next step."
+  );
 
 }
 
@@ -788,13 +909,9 @@ async function showAdminPanel(){
 
   const {data:profile,error:profileError}=
     await supabaseClient
-
       .from("users")
-
       .select("role")
-
       .eq("id",currentUser.id)
-
       .single();
 
   if(profileError || profile.role !== "admin"){
@@ -812,11 +929,8 @@ async function showAdminPanel(){
   document.getElementById("admin").style.display="block";
 
   const {data:users,error}=await supabaseClient
-
     .from("users")
-
     .select("id,full_name,email,role,created_at")
-
     .order("created_at",{ascending:false});
 
   if(error){
@@ -832,6 +946,78 @@ async function showAdminPanel(){
   updateStatistics();
 
   displayUsers(allUsers);
+
+}
+
+async function addProduct(){
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const description =
+    document.getElementById("productDescription").value.trim();
+
+  const price =
+    Number(document.getElementById("productPrice").value);
+
+  const image_url =
+    document.getElementById("productImage").value.trim();
+
+  const stock =
+    Number(document.getElementById("productStock").value);
+
+  if(!name){
+
+    alert("Please enter product name.");
+
+    return;
+
+  }
+
+  if(price < 0 || isNaN(price)){
+
+    alert("Please enter a valid price.");
+
+    return;
+
+  }
+
+  if(stock < 0 || isNaN(stock)){
+
+    alert("Please enter valid stock.");
+
+    return;
+
+  }
+
+  const {error}=await supabaseClient
+    .from("products")
+    .insert({
+
+      name:name,
+      description:description,
+      price:price,
+      image_url:image_url || null,
+      stock:stock,
+      is_active:true
+
+    });
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+
+  }
+
+  alert("✅ Product added successfully!");
+
+  document.getElementById("productName").value="";
+  document.getElementById("productDescription").value="";
+  document.getElementById("productPrice").value="";
+  document.getElementById("productImage").value="";
+  document.getElementById("productStock").value="";
 
 }
 
@@ -899,13 +1085,9 @@ function displayUsers(users){
     button.onclick=()=>changeRole(user);
 
     box.appendChild(name);
-
     box.appendChild(email);
-
     box.appendChild(role);
-
     box.appendChild(date);
-
     box.appendChild(button);
 
     list.appendChild(box);
@@ -956,11 +1138,8 @@ async function changeRole(user){
     : "admin";
 
   const {error}=await supabaseClient
-
     .from("users")
-
     .update({role:newRole})
-
     .eq("id",user.id);
 
   if(error){
@@ -985,25 +1164,4 @@ function comingSoon(){
 
 async function checkSession(){
 
-  const {data}=await supabaseClient.auth.getSession();
-
-  if(data.session){
-
-    currentUser=data.session.user;
-
-    showDashboard(currentUser);
-
-  }else{
-
-    showHome();
-
-  }
-
-}
-
-checkSession();
-
-</script>
-
-</body>
-  </html>
+  const {data}=await 
