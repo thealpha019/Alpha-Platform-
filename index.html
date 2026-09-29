@@ -105,13 +105,11 @@ button{
   color:white;
 }
 
-.dashboard{
-  display:none;
-}
-
+.dashboard,
 .login,
 .register,
-.admin{
+.admin,
+.ai-tools{
   display:none;
 }
 
@@ -128,13 +126,19 @@ button{
   margin-bottom:20px;
 }
 
-input{
+input,
+textarea{
   width:100%;
   padding:14px;
   margin-bottom:14px;
   border:1px solid #d0d5dd;
   border-radius:10px;
   font-size:15px;
+}
+
+textarea{
+  min-height:150px;
+  resize:vertical;
 }
 
 .primary{
@@ -187,6 +191,48 @@ input{
   margin-top:10px;
   background:#2563eb;
   color:white;
+}
+
+.ai-box{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.ai-box h2{
+  margin-bottom:10px;
+}
+
+.ai-box .description{
+  color:#667085;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+
+.ai-response{
+  display:none;
+  margin-top:20px;
+  background:#f4f7fb;
+  padding:20px;
+  border-radius:14px;
+  white-space:pre-wrap;
+  line-height:1.6;
+}
+
+.ai-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.ai-buttons button{
+  background:#2563eb;
+  color:white;
+}
+
+.ai-buttons .clear{
+  background:#64748b;
 }
 
 footer{
@@ -307,7 +353,7 @@ footer{
 
       <div class="stat">
         🤖 AI
-        <strong>Coming Soon</strong>
+        <strong>Ready</strong>
       </div>
 
     </div>
@@ -318,7 +364,7 @@ footer{
         <div class="icon">🤖</div>
         <h3>AI Tools</h3>
         <p>Use powerful AI tools from your Alpha Platform account.</p>
-        <button class="action" onclick="comingSoon()">Open AI Tools</button>
+        <button class="action" onclick="showAITools()">Open AI Tools</button>
       </div>
 
       <div class="card">
@@ -353,6 +399,58 @@ footer{
   </div>
 </section>
 
+<!-- AI TOOLS -->
+<section id="ai-tools" class="ai-tools">
+
+  <div class="container">
+
+    <div class="hero">
+      <h1>🤖 Alpha AI Tools</h1>
+      <p>
+        Your intelligent assistant inside Alpha Platform.
+      </p>
+    </div>
+
+    <div class="ai-box">
+
+      <h2>✨ Ask Alpha AI</h2>
+
+      <p class="description">
+        Write your question, idea or task below.
+        The AI assistant will process your request.
+      </p>
+
+      <textarea
+        id="aiPrompt"
+        placeholder="Ask Alpha AI anything..."
+      ></textarea>
+
+      <div class="ai-buttons">
+
+        <button onclick="runAI()">
+          🤖 Ask AI
+        </button>
+
+        <button class="clear" onclick="clearAI()">
+          🧹 Clear
+        </button>
+
+      </div>
+
+      <div id="aiResponse" class="ai-response"></div>
+
+    </div>
+
+    <button
+      onclick="showDashboard(currentUser)"
+      style="margin-top:20px;background:#111827;color:white;">
+      ← Back to Dashboard
+    </button>
+
+  </div>
+
+</section>
+
 <!-- ADMIN PANEL -->
 <section id="admin" class="admin">
   <div class="container">
@@ -382,6 +480,7 @@ footer{
     </div>
 
     <div class="card">
+
       <h2>👥 User Management</h2>
 
       <input
@@ -393,6 +492,7 @@ footer{
       >
 
       <div id="usersList"></div>
+
     </div>
 
     <button
@@ -426,29 +526,42 @@ let currentUser = null;
 let allUsers = [];
 
 function hideAll(){
+
   document.getElementById("home").style.display="none";
   document.getElementById("login").style.display="none";
   document.getElementById("register").style.display="none";
   document.getElementById("dashboard").style.display="none";
   document.getElementById("admin").style.display="none";
+  document.getElementById("ai-tools").style.display="none";
+
 }
 
 function showHome(){
+
   hideAll();
+
   document.getElementById("home").style.display="block";
+
 }
 
 function showLogin(){
+
   hideAll();
+
   document.getElementById("login").style.display="block";
+
 }
 
 function showRegister(){
+
   hideAll();
+
   document.getElementById("register").style.display="block";
+
 }
 
 function showDashboard(user){
+
   hideAll();
 
   currentUser=user;
@@ -456,6 +569,7 @@ function showDashboard(user){
   document.getElementById("dashboard").style.display="block";
 
   loadProfile(user);
+
 }
 
 async function loadProfile(user){
@@ -467,8 +581,11 @@ async function loadProfile(user){
     .single();
 
   if(error){
+
     console.error(error);
+
     return;
+
   }
 
   document.getElementById("welcomeName").textContent =
@@ -479,6 +596,7 @@ async function loadProfile(user){
 
   document.getElementById("adminCard").style.display =
     data.role === "admin" ? "block" : "none";
+
 }
 
 async function register(){
@@ -493,37 +611,57 @@ async function register(){
     document.getElementById("registerPassword").value;
 
   if(!name || !email || !password){
+
     alert("Please fill all fields.");
+
     return;
+
   }
 
   const {data,error}=await supabaseClient.auth.signUp({
+
     email:email,
+
     password:password
+
   });
 
   if(error){
+
     alert(error.message);
+
     return;
+
   }
 
   if(!data.user){
+
     alert("Account creation failed.");
+
     return;
+
   }
 
   const {error:profileError}=await supabaseClient
     .from("users")
     .insert({
+
       id:data.user.id,
+
       full_name:name,
+
       email:email,
+
       role:"user"
+
     });
 
   if(profileError){
+
     alert(profileError.message);
+
     return;
+
   }
 
   alert("Account created successfully!");
@@ -531,6 +669,7 @@ async function register(){
   currentUser=data.user;
 
   showDashboard(data.user);
+
 }
 
 async function login(){
@@ -542,23 +681,33 @@ async function login(){
     document.getElementById("loginPassword").value;
 
   if(!email || !password){
+
     alert("Please enter email and password.");
+
     return;
+
   }
 
   const {data,error}=await supabaseClient.auth.signInWithPassword({
+
     email:email,
+
     password:password
+
   });
 
   if(error){
+
     alert(error.message);
+
     return;
+
   }
 
   currentUser=data.user;
 
   showDashboard(data.user);
+
 }
 
 async function logout(){
@@ -568,26 +717,94 @@ async function logout(){
   currentUser=null;
 
   showHome();
+
+}
+
+function showAITools(){
+
+  if(!currentUser){
+
+    showLogin();
+
+    return;
+
+  }
+
+  hideAll();
+
+  document.getElementById("ai-tools").style.display="block";
+
+}
+
+function runAI(){
+
+  const prompt =
+    document.getElementById("aiPrompt").value.trim();
+
+  if(!prompt){
+
+    alert("Please write something for Alpha AI.");
+
+    return;
+
+  }
+
+  const response =
+    document.getElementById("aiResponse");
+
+  response.style.display="block";
+
+  response.textContent =
+    "🤖 Alpha AI\n\n" +
+    "Your request has been received:\n\n" +
+    prompt +
+    "\n\n" +
+    "⚡ Real AI connection will be activated in the next step.";
+
+}
+
+function clearAI(){
+
+  document.getElementById("aiPrompt").value="";
+
+  const response =
+    document.getElementById("aiResponse");
+
+  response.style.display="none";
+
+  response.textContent="";
+
 }
 
 async function showAdminPanel(){
 
   if(!currentUser){
+
     showLogin();
+
     return;
+
   }
 
   const {data:profile,error:profileError}=
     await supabaseClient
+
       .from("users")
+
       .select("role")
+
       .eq("id",currentUser.id)
+
       .single();
 
   if(profileError || profile.role !== "admin"){
+
     alert("Access denied.");
+
     showDashboard(currentUser);
+
     return;
+
   }
 
   hideAll();
@@ -595,13 +812,19 @@ async function showAdminPanel(){
   document.getElementById("admin").style.display="block";
 
   const {data:users,error}=await supabaseClient
+
     .from("users")
+
     .select("id,full_name,email,role,created_at")
+
     .order("created_at",{ascending:false});
 
   if(error){
+
     alert(error.message);
+
     return;
+
   }
 
   allUsers=users || [];
@@ -609,6 +832,7 @@ async function showAdminPanel(){
   updateStatistics();
 
   displayUsers(allUsers);
+
 }
 
 function updateStatistics(){
@@ -621,6 +845,7 @@ function updateStatistics(){
 
   document.getElementById("totalNormalUsers").textContent =
     allUsers.filter(user=>user.role==="user").length;
+
 }
 
 function displayUsers(users){
@@ -630,8 +855,12 @@ function displayUsers(users){
   list.innerHTML="";
 
   if(users.length===0){
-    list.innerHTML="<p style='margin-top:20px;'>No users found.</p>";
+
+    list.innerHTML =
+      "<p style='margin-top:20px;'>No users found.</p>";
+
     return;
+
   }
 
   users.forEach(user=>{
@@ -641,17 +870,20 @@ function displayUsers(users){
     box.className="admin-user";
 
     const name=document.createElement("h3");
+
     name.textContent="👤 " + user.full_name;
 
     const email=document.createElement("p");
+
     email.textContent="📧 " + user.email;
 
     const role=document.createElement("p");
+
     role.textContent="🔐 Role: " + user.role;
 
     const date=document.createElement("p");
 
-    date.textContent=
+    date.textContent =
       "📅 Created: " +
       new Date(user.created_at).toLocaleDateString();
 
@@ -667,35 +899,55 @@ function displayUsers(users){
     button.onclick=()=>changeRole(user);
 
     box.appendChild(name);
+
     box.appendChild(email);
+
     box.appendChild(role);
+
     box.appendChild(date);
+
     box.appendChild(button);
 
     list.appendChild(box);
+
   });
+
 }
 
 function filterUsers(){
 
-  const search=
+  const search =
     document.getElementById("searchUsers")
     .value
     .toLowerCase();
 
-  const filtered=allUsers.filter(user=>
-    user.full_name.toLowerCase().includes(search) ||
-    user.email.toLowerCase().includes(search)
-  );
+  const filtered =
+    allUsers.filter(user=>
+
+      user.full_name
+        .toLowerCase()
+        .includes(search)
+
+      ||
+
+      user.email
+        .toLowerCase()
+        .includes(search)
+
+    );
 
   displayUsers(filtered);
+
 }
 
 async function changeRole(user){
 
   if(user.id===currentUser.id){
+
     alert("You cannot change your own admin role.");
+
     return;
+
   }
 
   const newRole =
@@ -704,23 +956,31 @@ async function changeRole(user){
     : "admin";
 
   const {error}=await supabaseClient
+
     .from("users")
+
     .update({role:newRole})
+
     .eq("id",user.id);
 
   if(error){
+
     alert(error.message);
+
     return;
+
   }
 
   alert("Role updated successfully.");
 
   showAdminPanel();
+
 }
 
 function comingSoon(){
 
   alert("🚀 This feature is coming soon.");
+
 }
 
 async function checkSession(){
@@ -738,6 +998,7 @@ async function checkSession(){
     showHome();
 
   }
+
 }
 
 checkSession();
@@ -745,4 +1006,4 @@ checkSession();
 </script>
 
 </body>
-          </html>
+  </html>
